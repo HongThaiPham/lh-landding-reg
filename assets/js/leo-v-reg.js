@@ -136,14 +136,19 @@ var app = new Vue({
       isDGNL: false,
       maToHop: null,
       loading: true,
-      src: "default"
+      src: "default",
+      ctvid: "",
+      ctv: null
     };
   },
   created() {
     let uri = window.location.search.substring(1);
     let params = new URLSearchParams(uri);
     this.src = params.get("src");
+    this.ctvid = params.get("ctv");
     console.log(`Source: ${params.get("src")}`);
+    console.log(`CTV: ${params.get("ctv")}`);
+    this.getInfoCtv();
     this.getNganh();
     this.getTinhThanh();
     this.getKhuVuc();
@@ -152,6 +157,27 @@ var app = new Vue({
     this.loading = false;
   },
   methods: {
+    getInfoCtv() {
+      if (this.ctvid) {
+        fetch(`${this.tapiUrl}/obj/ctv_get/${this.ctvid}`, {
+          method: "GET",
+          ...headerHttp
+        })
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+            if (res && res.data.HoTen && res.data.DienThoai) {
+              this.ctv = res.data;
+              console.log(this.ctv);
+            } else {
+              this.ctv = null;
+            }
+            // this.ctv = res;
+          });
+      } else {
+        this.ctv = null;
+      }
+    },
     resetForm() {
       this.dataForm = {
         HoTen: null,
@@ -295,7 +321,8 @@ var app = new Vue({
                   ? parseFloat(this.dataForm.DiemTB)
                   : 0,
                 Nu: this.dataForm.Nu === "1" ? true : false,
-                source: this.src || "default"
+                source: this.src || "default",
+                ctvid: this.ctvid || ""
               };
               return fetch(`${this.tapiUrl}/DangKyXetTuyenOnline`, {
                 method: "POST",

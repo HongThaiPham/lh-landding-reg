@@ -70,6 +70,14 @@
             </h3>
           </div>
         </div>
+
+        <div class="row" v-if="ctvid && ctv">
+          <div class="col-sm-12">
+            <div class="alert alert-info" role="alert">
+              Người đồng hành: {{ctv.HoTen}} - Điện thoại: {{ctv.DienThoai}}
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-sm-12">
             <form @submit.prevent="processForm">
