@@ -113,7 +113,7 @@ var app = new Vue({
         DiemMon3: null,
         DiemTB: null,
         Email: null,
-        Nu: 0,
+        Nu: false,
         NgaySinh: null,
         MaQuanHuyenLop10: "00",
         MaTinhTPLop10: "00",
@@ -138,25 +138,84 @@ var app = new Vue({
       loading: true,
       src: "default",
       ctvid: "",
-      ctv: null
+      ctv: null,
+      idDangKy: ""
     };
   },
-  created() {
+  mounted() {
     let uri = window.location.search.substring(1);
     let params = new URLSearchParams(uri);
     this.src = params.get("src");
     this.ctvid = params.get("ctv");
+    this.idDangKy = params.get("id");
+
     console.log(`Source: ${params.get("src")}`);
     console.log(`CTV: ${params.get("ctv")}`);
+    console.log(`IDangKy: ${params.get("id")}`);
     this.getInfoCtv();
     this.getNganh();
     this.getTinhThanh();
     this.getKhuVuc();
     this.getDoiTuong();
 
+    if (this.idDangKy) {
+      this.getInfoById();
+    }
     this.loading = false;
   },
+  watch: {
+    "dataForm.PhuongThucXetTuyen": function(val) {
+      if (val === 0 || val === 2) {
+        this.isDiemTB = false;
+      } else {
+        this.isDiemTB = true;
+      }
+      if (val === 3) {
+        this.isDGNL = true;
+      } else {
+        this.isDGNL = false;
+      }
+    },
+    "dataForm.MaTinhTPLop10": function(val) {
+      this.getQuanHuyen(10);
+    },
+    "dataForm.MaQuanHuyenLop10": function(val) {
+      this.getTruong(10);
+    },
+    "dataForm.MaTinhTPLop11": function(val) {
+      this.getQuanHuyen(11);
+    },
+    "dataForm.MaQuanHuyenLop11": function(val) {
+      this.getTruong(11);
+    },
+    "dataForm.MaTinhTPLop12": function(val) {
+      this.getQuanHuyen(12);
+    },
+    "dataForm.MaQuanHuyenLop12": function(val) {
+      this.getTruong(12);
+    },
+    "dataForm.NganhID": function(val) {
+      this.handleChangeNganh();
+    },
+    "dataForm.ToHopMonID": function(val) {
+      this.handleChangeToHop(val);
+    }
+  },
   methods: {
+    getInfoById() {
+      fetch(`${this.tapiUrl}/DangKyOnline_byId`, {
+        method: "POST",
+        ...headerHttp,
+        body: JSON.stringify({ MaDangKy: this.idDangKy })
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (res.data && res.data[0]) {
+            this.dataForm = { ...res.data[0] };
+          }
+        });
+    },
+
     getInfoCtv() {
       if (this.ctvid) {
         fetch(`${this.tapiUrl}/obj/ctv_get/${this.ctvid}`, {
@@ -241,8 +300,8 @@ var app = new Vue({
     },
     getQuanHuyen(control) {
       const MaTinhTP = this.dataForm[`MaTinhTPLop${control}`];
-      this.dataForm[`MaQuanHuyenLop${control}`] = "00";
-      this.dataForm[`MaTruongLop${control}`] = "00";
+      // this.dataForm[`MaQuanHuyenLop${control}`] = "00";
+      // this.dataForm[`MaTruongLop${control}`] = "00";
       fetch(`${this.tapiUrl}/QuanHuyen_Select`, {
         method: "POST",
         body: JSON.stringify({ MaTinhTP }),
@@ -256,7 +315,7 @@ var app = new Vue({
     getTruong(control) {
       const MaQuanHuyen = this.dataForm[`MaQuanHuyenLop${control}`];
       const MaTinhTP = this.dataForm[`MaTinhTPLop${control}`];
-      this.dataForm[`MaTruongLop${control}`] = "00";
+      // this.dataForm[`MaTruongLop${control}`] = "00";
       fetch(`${this.tapiUrl}/TruongTHPT`, {
         method: "POST",
         body: JSON.stringify({ MaQuanHuyen, MaTinhTP }),
@@ -294,11 +353,10 @@ var app = new Vue({
           // eslint-disable-next-line
           // alert("Form Submitted!");
           Swal.fire({
-            title:
-              "Bạn có chắc chắn đã nhập chính xác thông tin và đăng ký xét tuyển?",
+            title: "Xác nhận cập nhật",
             text:
-              "Sau khi đăng ký bạn sẽ nhận được email và SMS xác nhận đã đăng ký thành công kèm theo mã hồ sơ của bạn để tra cứu sau này.",
-            type: "warning",
+              "Bạn có chắc chắn đã nhập chính xác thông tin và đăng ký xét tuyển?",
+            icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
@@ -308,6 +366,7 @@ var app = new Vue({
             preConfirm: () => {
               const data = {
                 ...this.dataForm,
+                MaDangKy: this.idDangKy,
                 DiemMon1: this.dataForm.DiemMon1
                   ? parseFloat(this.dataForm.DiemMon1)
                   : 0,
@@ -320,11 +379,11 @@ var app = new Vue({
                 DiemTB: this.dataForm.DiemTB
                   ? parseFloat(this.dataForm.DiemTB)
                   : 0,
-                Nu: this.dataForm.Nu === "1" ? true : false,
+
                 source: this.src || "default",
                 ctvid: this.ctvid || ""
               };
-              return fetch(`${this.tapiUrl}/DangKyXetTuyenOnline`, {
+              return fetch(`${this.tapiUrl}/DangKyOnline_Update`, {
                 method: "POST",
                 ...headerHttp,
                 body: JSON.stringify(data)
@@ -349,7 +408,7 @@ var app = new Vue({
                 "Bạn đã đăng ký xét tuyển thành công, vui lòng đợi thông tin kết quả xét tuyển từ trường Đại học Lạc Hồng.",
                 "success"
               ).then(() => {
-                window.location.assign("/");
+                window.location.assign("https://tuyensinh.lhu.edu.vn");
               });
             }
           });

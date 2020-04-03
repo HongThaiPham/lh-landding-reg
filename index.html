@@ -92,6 +92,7 @@
                     v-model="dataForm.PhuongThucXetTuyen"
                     @change="handleChangePhuongThuc"
                     v-validate="'required'"
+                    data-vv-as="Phương thức xét tuyển"
                     name="ptxt"
                   >
                     <option :value="pt.value" v-for="pt in lsPhuongThuc"
@@ -157,7 +158,7 @@
                       id="gtNam"
                       formControlName="gioitinh"
                       name="gioitinh"
-                      value="0"
+                      :value="false"
                       v-model="dataForm.Nu"
                     />
                     <label class="form-check-label" for="gtNam">Nam</label>
@@ -169,7 +170,7 @@
                       id="gtNu"
                       formControlName="gioitinh"
                       name="gioitinh"
-                      value="1"
+                      :value="true"
                       v-model="dataForm.Nu"
                     />
                     <label class="form-check-label" for="gtNu">Nữ</label>
@@ -767,8 +768,8 @@
               </div>
 
               <div class="row d-flex justify-content-center py-5">
-                <button type="submit" class="btn btn-success">
-                  Đăng ký
+                <button type="submit" class="btn btn-primary">
+                  Cập nhật
                 </button>
               </div>
             </form>
@@ -806,7 +807,7 @@
     <script
       defer
       type="text/javascript"
-      src="/assets/js/leo-v-reg.min.js?20190826"
+      src="/assets/js/leo-v-reg.min.js?20190827"
     ></script>
     <!-- End Bottstrap script -->
   </body>
