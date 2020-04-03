@@ -52,7 +52,7 @@
 #leo-ts {
   overflow: hidden;
   background-attachment: fixed;
-  background-image: url("/assets/img/bg.webp");
+  background-image: url("../img/bg.webp");
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

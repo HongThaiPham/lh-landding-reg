@@ -379,7 +379,7 @@ var app = new Vue({
                 DiemTB: this.dataForm.DiemTB
                   ? parseFloat(this.dataForm.DiemTB)
                   : 0,
-
+                ToHopMonID: this.dataForm.ToHopMonID || 0,
                 source: this.src || "default",
                 ctvid: this.ctvid || ""
               };
@@ -423,18 +423,22 @@ var app = new Vue({
       });
     },
     handleChangeNganh(e) {
-      this.maNganh = this.lsNganh.find(
-        x => x.NganhID === this.dataForm.NganhID
-      ).MaNganhMoi;
+      if (
+        this.lsNganh.filter(x => x.NganhID === this.dataForm.NganhID).length > 0
+      ) {
+        this.maNganh =
+          this.lsNganh.find(x => x.NganhID === this.dataForm.NganhID)
+            .MaNganhMoi || "";
 
-      fetch(`${this.tapiUrl}/tohop/${this.dataForm.NganhID}`, {
-        method: "GET",
-        ...headerHttp
-      })
-        .then(res => res.json())
-        .then(res => {
-          this.lsToHop = res.data;
-        });
+        fetch(`${this.tapiUrl}/tohop/${this.dataForm.NganhID}`, {
+          method: "GET",
+          ...headerHttp
+        })
+          .then(res => res.json())
+          .then(res => {
+            this.lsToHop = res.data;
+          });
+      }
     },
     handleChangePhuongThuc() {
       this.dataForm.DiemMon1 = null;
@@ -456,14 +460,16 @@ var app = new Vue({
       }
     },
     handleChangeToHop() {
-      fetch(`${this.tapiUrl}/mon/${this.dataForm.ToHopMonID}`, {
-        method: "GET",
-        ...headerHttp
-      })
-        .then(res => res.json())
-        .then(res => {
-          this.lsMon = res.data;
-        });
+      if (this.dataForm.ToHopMonID) {
+        fetch(`${this.tapiUrl}/mon/${this.dataForm.ToHopMonID}`, {
+          method: "GET",
+          ...headerHttp
+        })
+          .then(res => res.json())
+          .then(res => {
+            this.lsMon = res.data;
+          });
+      }
     },
     copyAbove(control) {
       if (control === 11) {
