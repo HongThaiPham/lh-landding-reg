@@ -99,7 +99,8 @@ var app = new Vue({
         { value: 1, name: "Điểm TB cả năm 12" },
         { value: 2, name: "Thi THPT quốc gia" },
         { value: 3, name: "Đánh giá năng lực" },
-        { value: 4, name: "Tuyển thẳng" }
+        { value: 4, name: "Tuyển thẳng" },
+        { value: 5, name: "Điểm trung bình 3 học kỳ" }
       ],
       maNganh: null,
       dataForm: {
@@ -165,7 +166,7 @@ var app = new Vue({
   },
   watch: {
     "dataForm.PhuongThucXetTuyen": function(val) {
-      if (val === 0 || val === 2) {
+      if (val === 0 || val === 2 || val === 5) {
         this.isDiemTB = false;
       } else {
         this.isDiemTB = true;

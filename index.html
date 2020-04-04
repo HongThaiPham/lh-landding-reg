@@ -573,7 +573,10 @@
               </div>
 
               <div v-show="!isDiemTB">
-                <div class="form-group row">
+                <div
+                  class="form-group row"
+                  v-if="dataForm.PhuongThucXetTuyen !== 5"
+                >
                   <label for="tohop" class="col-sm-4 col-form-label"
                     >Chọn tổ hợp 3 môn:</label
                   >
@@ -598,12 +601,24 @@
                     </span>
                   </div>
                 </div>
-                <div class="form-group row" v-if="lsMon.length>0">
+                <div
+                  class="form-group row"
+                  v-if="lsMon.length>0 || dataForm.PhuongThucXetTuyen === 5"
+                >
                   <div class="col-sm-12">
                     <div class="row">
                       <div class="form-group col-sm-4">
-                        <label for="tinh3">
+                        <label
+                          for="tinh3"
+                          v-if="dataForm.PhuongThucXetTuyen !== 5"
+                        >
                           Môn 1: <b>{{ lsMon[0].TenMon }}</b></label
+                        >
+                        <label
+                          for="tinh3"
+                          v-if="dataForm.PhuongThucXetTuyen === 5"
+                        >
+                          <b>Điểm lớp 11 - HK1</b></label
                         >
                         <input
                           type="text"
@@ -622,8 +637,17 @@
                         </span>
                       </div>
                       <div class="form-group col-sm-4">
-                        <label for="diemmon2">
+                        <label
+                          for="diemmon2"
+                          v-if="dataForm.PhuongThucXetTuyen !== 5"
+                        >
                           Môn 2: <b>{{ lsMon[1].TenMon }}</b></label
+                        >
+                        <label
+                          for="diemmon2"
+                          v-if="dataForm.PhuongThucXetTuyen === 5"
+                        >
+                          <b>Điểm lớp 11 - HK2</b></label
                         >
                         <input
                           type="text"
@@ -642,8 +666,17 @@
                         </span>
                       </div>
                       <div class="form-group col-sm-4">
-                        <label for="diemmon3">
+                        <label
+                          for="diemmon3"
+                          v-if="dataForm.PhuongThucXetTuyen !== 5"
+                        >
                           Môn 3: <b>{{ lsMon[2].TenMon }}</b></label
+                        >
+                        <label
+                          for="diemmon3"
+                          v-if="dataForm.PhuongThucXetTuyen === 5"
+                        >
+                          <b>Điểm lớp 12 - HK1</b></label
                         >
                         <input
                           type="text"
