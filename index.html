@@ -14,7 +14,7 @@
 
     <!-- Google Tag Manager -->
     <script>
-      (function(w, d, s, l, i) {
+      (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
         var f = d.getElementsByTagName(s)[0],
@@ -45,7 +45,7 @@
         src="https://www.googletagmanager.com/ns.html?id=GTM-WT8KRJ3"
         height="0"
         width="0"
-        style="display:none;visibility:hidden"
+        style="display: none; visibility: hidden;"
       ></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
@@ -79,6 +79,25 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              <a
+                class="text-danger d-block"
+                href="https://tuyensinh.lhu.edu.vn/resources/hoc-bong-nam-2020.pdf"
+                target="_blank"
+                >Chính sách học bổng 2020</a
+              >
+              <a
+                class="text-danger d-block"
+                href="https://tuyensinh.lhu.edu.vn/resources/DOI-TUONG-XET-TUYEN-THANG-2020.pdf"
+                target="_blank"
+                >Đối tượng xét tuyển thẳng 2020</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-sm-12">
             <form @submit.prevent="processForm">
               <div class="row mb-3">
@@ -104,11 +123,31 @@
                   </span>
                 </div>
               </div>
-              <div class="row" v-show="dataForm.PhuongThucXetTuyen===4">
+              <div class="row mb-3" v-show="dataForm.PhuongThucXetTuyen===4">
                 <label class="col-sm-4 col-form-label"
                   >Tuyển thẳng theo diện:</label
                 >
                 <div class="col-sm-5">
+                  <select
+                    ref="doituongtuyenthang"
+                    class="custom-select mr-sm-2"
+                    v-model="dataForm.DoiTuongTuyenThang"
+                    @change="handleChangeTuyenThang"
+                    v-validate="'required'"
+                    data-vv-as="Đối tượng tuyển thẳng"
+                    name="doituongtuyenthang"
+                  >
+                    <option :value="tt.IdTuyenThang" v-for="tt in lsDTTT"
+                      >{{ tt.NamTuyenThang }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-3" v-show="dataForm.PhuongThucXetTuyen===4">
+                <label class="col-sm-4 col-form-label"
+                  >Ghi chú đối tượng:</label
+                >
+                <div class="col-sm-6">
                   <input
                     type="text"
                     class="form-control"
@@ -116,12 +155,7 @@
                     formControlName="tuyenthang"
                     v-model="dataForm.TuyenThang"
                     name="tuyenthang"
-                    v-validate="{required: !dataForm.PhuongThucXetTuyen===4 }"
-                    data-vv-as="Tuyển thẳng"
                   />
-                  <span class="text-danger" v-show="errors.has('tuyenthang')">
-                    {{ errors.first("tuyenthang") }}
-                  </span>
                 </div>
               </div>
 
@@ -245,20 +279,78 @@
                   </span>
                 </div>
               </div>
+              <div class="form-group row">
+                <label for="dienthoai" class="col-sm-3 col-form-label">
+                  Điện thoại liên lạc
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="dienthoai"
+                    formControlName="dienthoai"
+                    v-model="dataForm.DienThoai"
+                    name="dienthoai"
+                    v-validate="'required|numeric|min:9|max:12'"
+                    data-vv-as="Số điện thoại"
+                  />
+                  <span class="text-danger" v-show="errors.has('dienthoai')">
+                    {{ errors.first("dienthoai") }}
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="email" class="col-sm-3 col-form-label">
+                  Email
+                </label>
+                <div class="col-sm-4">
+                  <input
+                    v-validate="'email'"
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    formControlName="email"
+                    v-model="dataForm.Email"
+                    data-vv-as="Địa chỉ email"
+                  />
+                  <span class="text-danger" v-show="errors.has('email')">
+                    {{ errors.first("email") }}
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-12 col-form-label"
+                  >Trường Đại học Lạc Hồng gửi kết quả xét tuyển cho ai, theo
+                  địa chỉ nào?</label
+                >
+              </div>
+              <div class="form-group row">
+                <div class="col-12">
+                  <textarea
+                    rows="3"
+                    class="w-100 form-control"
+                    formControlName="diachi"
+                    v-model="dataForm.DiaChi"
+                    placeholder="Số nhà, tổ, khu phố/ấp, phường/xã, huyện /thị, tỉnh/ thành phố"
+                  ></textarea>
+                </div>
+              </div>
               <div class="row mb-3">
                 <div class="col-sm-12">
                   <h4 class="myh4">Nơi học THPT</h4>
                   <div class="dropdown-divider"></div>
                 </div>
               </div>
-              <div class="row">
+              <!--  begin lop 10-->
+              <!-- <div class="row">
                 <div class="col-sm-12">
                   <h6 class="font-weight-bold">
                     Lớp 10
                   </h6>
                 </div>
-              </div>
-              <!--  begin lop 10-->
+              </div> 
+
               <div class="row">
                 <div class="form-group col-sm-4">
                   <label for="tinh1">Tỉnh/ Thành phố</label>
@@ -326,7 +418,7 @@
                   </span>
                 </div>
               </div>
-              <!-- end lop 10-->
+
               <div class="row">
                 <div class="col-sm-12">
                   <h6 class="font-weight-bold">
@@ -336,9 +428,10 @@
                     </span>
                   </h6>
                 </div>
-              </div>
+              </div>-->
+              <!-- end lop 10-->
               <!-- begin lop 11-->
-              <div class="row">
+              <!-- <div class="row">
                 <div class="form-group col-sm-4">
                   <label for="tinh2">Tỉnh/ Thành phố</label>
                   <select
@@ -404,15 +497,15 @@
                     {{ errors.first("truong2") }}
                   </span>
                 </div>
-              </div>
+              </div> -->
               <!-- end lop 11-->
               <div class="row">
                 <div class="col-sm-12">
                   <h6 class="font-weight-bold">
-                    Lớp 12 -
-                    <span class="myh6 cursor-pointer" @click="copyAbove(12)">
+                    Lớp 12
+                    <!-- <span class="myh6 cursor-pointer" @click="copyAbove(12)">
                       (Giống nơi học lớp 10)
-                    </span>
+                    </span> -->
                   </h6>
                 </div>
               </div>
@@ -484,7 +577,7 @@
                 </div>
               </div>
               <!-- end lop 12-->
-              <div class="form-group row">
+              <!-- <div class="form-group row">
                 <label for="khuvuc" class="col-sm-3 col-form-label"
                   >Khu vực ưu tiên</label
                 >
@@ -532,7 +625,7 @@
                     {{ errors.first("doituong") }}
                   </span>
                 </div>
-              </div>
+              </div> -->
 
               <div class="form-group row">
                 <label for="nganh" class="col-sm-1 col-form-label"
@@ -557,7 +650,7 @@
                     {{ errors.first("nganh") }}
                   </span>
                 </div>
-                <label for="manganh" class="col-sm-2 col-form-label"
+                <!-- <label for="manganh" class="col-sm-2 col-form-label"
                   >Mã ngành:</label
                 >
                 <div class="col-sm-4">
@@ -569,15 +662,15 @@
                     formControlName="manganh"
                     maxlength="7"
                   />
-                </div>
+                </div> -->
               </div>
 
-              <div v-show="!isDiemTB">
+              <div v-show="!isDiemTB && dataForm.PhuongThucXetTuyen !==4">
                 <div
                   class="form-group row"
                   v-if="dataForm.PhuongThucXetTuyen !== 5"
                 >
-                  <label for="tohop" class="col-sm-4 col-form-label"
+                  <label for="tohop" class="col-sm-3 col-form-label"
                     >Chọn tổ hợp 3 môn:</label
                   >
                   <div class="col-sm-5">
@@ -626,7 +719,7 @@
                           formControlName="diemmon1"
                           v-model="dataForm.DiemMon1"
                           name="diemmon1"
-                          v-validate="{required: !isDiemTB, decimal: 2, min_value: 0.0, max_value: 10.0}"
+                          v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==4, decimal: 2, min_value: 0.0, max_value: 10.0}"
                           data-vv-as="Điểm"
                         />
                         <span
@@ -655,7 +748,7 @@
                           formControlName="diemmon2"
                           v-model="dataForm.DiemMon2"
                           name="diemmon2"
-                          v-validate="{required: !isDiemTB, decimal: 2, min_value: 0.0, max_value: 10.0}"
+                          v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==4, decimal: 2, min_value: 0.0, max_value: 10.0}"
                           data-vv-as="Điểm"
                         />
                         <span
@@ -684,7 +777,7 @@
                           formControlName="diemmon3"
                           v-model="dataForm.DiemMon3"
                           name="diemmon3"
-                          v-validate="{required: !isDiemTB, decimal: 2, min_value: 0.0, max_value: 10.0}"
+                          v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==4, decimal: 2, min_value: 0.0, max_value: 10.0}"
                           data-vv-as="Điểm"
                         />
                         <span
@@ -743,63 +836,6 @@
                 </div>
               </div>
 
-              <div class="form-group row">
-                <label class="col-sm-12 col-form-label"
-                  >Trường Đại học Lạc Hồng gửi kết quả xét tuyển cho ai, theo
-                  địa chỉ nào?</label
-                >
-              </div>
-              <div class="form-group row">
-                <div class="col-12">
-                  <textarea
-                    rows="3"
-                    class="w-100 form-control"
-                    formControlName="diachi"
-                    v-model="dataForm.DiaChi"
-                  ></textarea>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="dienthoai" class="col-sm-3 col-form-label">
-                  Điện thoại liên lạc
-                </label>
-                <div class="col-sm-5">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="dienthoai"
-                    formControlName="dienthoai"
-                    v-model="dataForm.DienThoai"
-                    name="dienthoai"
-                    v-validate="'required|numeric|min:9|max:12'"
-                    data-vv-as="Số điện thoại"
-                  />
-                  <span class="text-danger" v-show="errors.has('dienthoai')">
-                    {{ errors.first("dienthoai") }}
-                  </span>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label for="email" class="col-sm-3 col-form-label">
-                  Email
-                </label>
-                <div class="col-sm-5">
-                  <input
-                    v-validate="'email'"
-                    type="text"
-                    class="form-control"
-                    id="email"
-                    name="email"
-                    formControlName="email"
-                    v-model="dataForm.Email"
-                    data-vv-as="Địa chỉ email"
-                  />
-                  <span class="text-danger" v-show="errors.has('email')">
-                    {{ errors.first("email") }}
-                  </span>
-                </div>
-              </div>
-
               <div class="row d-flex justify-content-center py-5">
                 <button type="submit" class="btn btn-primary">
                   Cập nhật
@@ -840,7 +876,7 @@
     <script
       defer
       type="text/javascript"
-      src="assets/js/leo-v-reg.min.js?20190827"
+      src="assets/js/leo-v-reg.min.js?20190828"
     ></script>
     <!-- End Bottstrap script -->
   </body>
