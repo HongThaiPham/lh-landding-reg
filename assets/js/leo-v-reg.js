@@ -134,7 +134,7 @@ var app = new Vue({
         CMND: "",
         SoBD: "",
         TuyenThang: "",
-        DoiTuongTuyenThang: null,
+        DoiTuongTuyenThang: 0,
       },
       isDiemTB: false,
       isDGNL: false,
@@ -286,7 +286,7 @@ var app = new Vue({
         CMND: "",
         SoBD: "",
         TuyenThang: "",
-        DoiTuongTuyenThang: null,
+        DoiTuongTuyenThang: 0,
       };
     },
     getNganh() {
