@@ -133,7 +133,7 @@
                   </span>
                 </div>
               </div>
-              <div class="row mb-3" v-show="dataForm.PhuongThucXetTuyen===4">
+              <div class="row mb-3" v-if="dataForm.PhuongThucXetTuyen===4">
                 <label class="col-sm-4 col-form-label"
                   >Tuyển thẳng theo diện:</label
                 >
@@ -153,7 +153,7 @@
                   </select>
                 </div>
               </div>
-              <div class="row mb-3" v-show="dataForm.PhuongThucXetTuyen===4">
+              <div class="row mb-3" v-if="dataForm.PhuongThucXetTuyen===4">
                 <label class="col-sm-4 col-form-label"
                   >Ghi chú đối tượng:</label
                 >
@@ -253,7 +253,7 @@
                     formControlName="noisinh"
                     v-model="dataForm.NoiSinh"
                     name="noisinh"
-                    v-validate="{ required: true, is_not: 0 }"
+                    v-validate="{ required: true }"
                     data-vv-as="Nơi sinh"
                   >
                     <option
@@ -530,7 +530,7 @@
                     v-model="dataForm.MaTinhTPLop12"
                     @change="getQuanHuyen(12)"
                     name="tinh3"
-                    v-validate="{required: true, is_not: '00'}"
+                    v-validate="{required: true}"
                     data-vv-as="Tỉnh/ Thành phố"
                   >
                     <option value="00">-- Chọn --</option>
@@ -551,7 +551,7 @@
                     v-model="dataForm.MaQuanHuyenLop12"
                     @change="getTruong(12)"
                     name="quan3"
-                    v-validate="{required: true, is_not: '00'}"
+                    v-validate="{required: true}"
                     data-vv-as="Quận/ Huyện"
                   >
                     <option value="00">-- Chọn --</option>
@@ -571,7 +571,7 @@
                     formControlName="truong3"
                     v-model="dataForm.MaTruongLop12"
                     name="truong3"
-                    v-validate="{required: true, is_not: '00'}"
+                    v-validate="{required: true}"
                     data-vv-as="Trường"
                   >
                     <option value="00">-- Chọn --</option>
@@ -649,7 +649,7 @@
                     @change="handleChangeNganh"
                     formControlName="nganh"
                     name="nganh"
-                    v-validate="{required: true, is_not: 0}"
+                    v-validate="{required: true}"
                     data-vv-as="Ngành học"
                   >
                     <option v-for="nganh in lsNganh" :value="nganh.NganhID"
@@ -691,7 +691,7 @@
                       @change="handleChangeToHop"
                       v-model="dataForm.ToHopMonID"
                       name="tohop"
-                      v-validate="{required: !isDiemTB }"
+                      v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==5 }"
                       data-vv-as="Tổ hợp môn"
                     >
                       <option value="0">-- Chọn ---</option>
@@ -729,7 +729,7 @@
                           formControlName="diemmon1"
                           v-model="dataForm.DiemMon1"
                           name="diemmon1"
-                          v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==4, decimal: 2, min_value: 0.0, max_value: 10.0}"
+                          v-validate="{required: !isDiemTB , decimal: 2, min_value: 0.0, max_value: 10.0}"
                           data-vv-as="Điểm"
                         />
                         <span
@@ -758,7 +758,7 @@
                           formControlName="diemmon2"
                           v-model="dataForm.DiemMon2"
                           name="diemmon2"
-                          v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==4, decimal: 2, min_value: 0.0, max_value: 10.0}"
+                          v-validate="{required: !isDiemTB , decimal: 2, min_value: 0.0, max_value: 10.0}"
                           data-vv-as="Điểm"
                         />
                         <span
@@ -787,7 +787,7 @@
                           formControlName="diemmon3"
                           v-model="dataForm.DiemMon3"
                           name="diemmon3"
-                          v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==4, decimal: 2, min_value: 0.0, max_value: 10.0}"
+                          v-validate="{required: !isDiemTB , decimal: 2, min_value: 0.0, max_value: 10.0}"
                           data-vv-as="Điểm"
                         />
                         <span

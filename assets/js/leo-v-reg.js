@@ -408,6 +408,9 @@ var app = new Vue({
                 MaTinhTPLop11: this.dataForm.MaTinhTPLop12,
                 MaQuanHuyenLop11: this.dataForm.MaQuanHuyenLop12,
                 MaTruongLop11: this.dataForm.MaTruongLop12,
+                KhuVuc: 0,
+                DoiTuong: 0,
+                DoiTuongTuyenThang: this.dataForm.DoiTuongTuyenThang || 0,
               };
               return fetch(`${this.tapiUrl}/DangKyOnline_Update`, {
                 method: "POST",
@@ -415,10 +418,26 @@ var app = new Vue({
                 body: JSON.stringify(data),
               })
                 .then((res) => {
+                  console.log(res);
                   if (!res.ok) {
                     throw new Error(res.statusText);
                   }
                   return res.json();
+                })
+                .then((res) => {
+                  if (res.ErrCode == 1) {
+                    return Swal.fire({
+                      title: "Info",
+                      text: res.ErrMsg,
+                      type: "error",
+                      confirmButtonText: "Ok",
+                    }).then(() => {
+                      window.location.assign("https://tuyensinh.lhu.edu.vn");
+                      return false;
+                    });
+                  } else {
+                    return true;
+                  }
                 })
                 .catch((error) => {
                   Swal.showValidationMessage(`Request failed: ${error}`);
@@ -426,6 +445,7 @@ var app = new Vue({
             },
             allowOutsideClick: false,
           }).then((result) => {
+            console.log(result);
             if (result.value) {
               this.resetForm();
               console.log(this.dataForm);
@@ -463,16 +483,16 @@ var app = new Vue({
       //   this.maNganh =
       //     this.lsNganh.find((x) => x.NganhID === this.dataForm.NganhID)
       //       .MaNganhMoi || "";
-
-      fetch(`${this.tapiUrl}/tohop/${this.dataForm.NganhID}`, {
-        method: "GET",
-        ...headerHttp,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          this.lsToHop = res.data;
-        });
-      // }
+      if (this.dataForm.NganhID) {
+        fetch(`${this.tapiUrl}/tohop/${this.dataForm.NganhID}`, {
+          method: "GET",
+          ...headerHttp,
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            this.lsToHop = res.data;
+          });
+      }
     },
     handleChangePhuongThuc() {
       this.dataForm.DiemMon1 = null;
@@ -481,7 +501,9 @@ var app = new Vue({
       this.dataForm.DiemTB = null;
       if (
         this.dataForm.PhuongThucXetTuyen === 0 ||
-        this.dataForm.PhuongThucXetTuyen === 2
+        this.dataForm.PhuongThucXetTuyen === 2 ||
+        this.dataForm.PhuongThucXetTuyen === 4 ||
+        this.dataForm.PhuongThucXetTuyen === 5
       ) {
         this.isDiemTB = false;
       } else {
