@@ -678,7 +678,7 @@
               <div v-show="!isDiemTB && dataForm.PhuongThucXetTuyen !==4">
                 <div
                   class="form-group row"
-                  v-if="dataForm.PhuongThucXetTuyen !== 5"
+                  v-if="dataForm.PhuongThucXetTuyen !== 5 && dataForm.PhuongThucXetTuyen !== 6"
                 >
                   <label for="tohop" class="col-sm-3 col-form-label"
                     >Chọn tổ hợp 3 môn:</label
@@ -691,7 +691,7 @@
                       @change="handleChangeToHop"
                       v-model="dataForm.ToHopMonID"
                       name="tohop"
-                      v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==5 }"
+                      v-validate="{required: !isDiemTB && dataForm.PhuongThucXetTuyen !==5 && dataForm.PhuongThucXetTuyen !==6 }"
                       data-vv-as="Tổ hợp môn"
                     >
                       <option value="0">-- Chọn ---</option>
@@ -706,14 +706,14 @@
                 </div>
                 <div
                   class="form-group row"
-                  v-if="lsMon.length>0 || dataForm.PhuongThucXetTuyen === 5"
+                  v-if="lsMon.length>0 || dataForm.PhuongThucXetTuyen === 5 || dataForm.PhuongThucXetTuyen === 6"
                 >
                   <div class="col-sm-12">
                     <div class="row">
                       <div class="form-group col-sm-4">
                         <label
                           for="tinh3"
-                          v-if="dataForm.PhuongThucXetTuyen !== 5"
+                          v-if="dataForm.PhuongThucXetTuyen !== 5 && dataForm.PhuongThucXetTuyen !== 6"
                         >
                           Môn 1: <b>{{ lsMon[0].TenMon }}</b></label
                         >
@@ -722,6 +722,12 @@
                           v-if="dataForm.PhuongThucXetTuyen === 5"
                         >
                           <b>Điểm lớp 11 - HK1</b></label
+                        >
+                        <label
+                          for="tinh3"
+                          v-if="dataForm.PhuongThucXetTuyen === 6"
+                        >
+                          <b>Điểm trung bình học kỳ cao nhất lớp 10</b></label
                         >
                         <input
                           type="text"
@@ -742,7 +748,7 @@
                       <div class="form-group col-sm-4">
                         <label
                           for="diemmon2"
-                          v-if="dataForm.PhuongThucXetTuyen !== 5"
+                          v-if="dataForm.PhuongThucXetTuyen !== 5 && dataForm.PhuongThucXetTuyen !== 6"
                         >
                           Môn 2: <b>{{ lsMon[1].TenMon }}</b></label
                         >
@@ -751,6 +757,12 @@
                           v-if="dataForm.PhuongThucXetTuyen === 5"
                         >
                           <b>Điểm lớp 11 - HK2</b></label
+                        >
+                        <label
+                          for="diemmon2"
+                          v-if="dataForm.PhuongThucXetTuyen === 6"
+                        >
+                          <b>Điểm trung bình học kỳ cao nhất lớp 11</b></label
                         >
                         <input
                           type="text"
@@ -771,7 +783,7 @@
                       <div class="form-group col-sm-4">
                         <label
                           for="diemmon3"
-                          v-if="dataForm.PhuongThucXetTuyen !== 5"
+                          v-if="dataForm.PhuongThucXetTuyen !== 5 && dataForm.PhuongThucXetTuyen !== 6"
                         >
                           Môn 3: <b>{{ lsMon[2].TenMon }}</b></label
                         >
@@ -780,6 +792,12 @@
                           v-if="dataForm.PhuongThucXetTuyen === 5"
                         >
                           <b>Điểm lớp 12 - HK1</b></label
+                        >
+                        <label
+                          for="diemmon3"
+                          v-if="dataForm.PhuongThucXetTuyen === 6"
+                        >
+                          <b>Điểm trung bình học kỳ cao nhất lớp 12</b></label
                         >
                         <input
                           type="text"

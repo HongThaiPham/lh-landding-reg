@@ -98,6 +98,7 @@ var app = new Vue({
       lsDTTT: [],
       lsPhuongThuc: [
         { value: 5, name: "Điểm trung bình 3 học kỳ" },
+        { value: 6, name: "Điểm trung bình học kỳ cao nhất 3 năm" },
         { value: 0, name: "Tổ hợp 3 môn lớp 12" },
         { value: 1, name: "Điểm TB cả năm 12" },
         { value: 2, name: "Thi THPT quốc gia" },
@@ -169,7 +170,7 @@ var app = new Vue({
   },
   watch: {
     "dataForm.PhuongThucXetTuyen": function (val) {
-      if (val === 0 || val === 2 || val === 5 || val === 4) {
+      if (val === 0 || val === 2 || val === 5 || val === 4 || val === 6) {
         this.isDiemTB = false;
       } else {
         this.isDiemTB = true;
@@ -503,7 +504,8 @@ var app = new Vue({
         this.dataForm.PhuongThucXetTuyen === 0 ||
         this.dataForm.PhuongThucXetTuyen === 2 ||
         this.dataForm.PhuongThucXetTuyen === 4 ||
-        this.dataForm.PhuongThucXetTuyen === 5
+        this.dataForm.PhuongThucXetTuyen === 5 ||
+        this.dataForm.PhuongThucXetTuyen === 6
       ) {
         this.isDiemTB = false;
       } else {
