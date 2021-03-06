@@ -45,7 +45,7 @@
         src="https://www.googletagmanager.com/ns.html?id=GTM-WT8KRJ3"
         height="0"
         width="0"
-        style="display: none; visibility: hidden;"
+        style="display: none; visibility: hidden"
       ></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
@@ -65,9 +65,7 @@
       >
         <div class="row">
           <div class="col-sm-12 text-center">
-            <h3 class="text-uppercase mb-5">
-              Đăng ký xét tuyển Online
-            </h3>
+            <h3 class="text-uppercase mb-5">Đăng ký xét tuyển Online</h3>
           </div>
         </div>
 
@@ -88,7 +86,7 @@
               >
                 <img
                   src="assets/img/pdficon.svg"
-                  style="width: 1em; height: 1em; vertical-align: baseline;"
+                  style="width: 1em; height: 1em; vertical-align: baseline"
                 />
                 Chính sách học bổng 2020</a
               >
@@ -99,7 +97,7 @@
               >
                 <img
                   src="assets/img/pdficon.svg"
-                  style="width: 1em; height: 1em; vertical-align: baseline;"
+                  style="width: 1em; height: 1em; vertical-align: baseline"
                 />
                 Đối tượng xét tuyển thẳng 2020</a
               >
@@ -124,9 +122,9 @@
                     data-vv-as="Phương thức xét tuyển"
                     name="ptxt"
                   >
-                    <option :value="pt.value" v-for="pt in lsPhuongThuc"
-                      >{{ pt.name }}</option
-                    >
+                    <option :value="pt.value" v-for="pt in lsPhuongThuc">
+                      {{ pt.name }}
+                    </option>
                   </select>
                   <span class="text-danger" v-show="errors.has('ptxt')">
                     {{ errors.first("ptxt") }}
@@ -147,9 +145,9 @@
                     data-vv-as="Đối tượng tuyển thẳng"
                     name="doituongtuyenthang"
                   >
-                    <option :value="tt.IdTuyenThang" v-for="tt in lsDTTT"
-                      >{{ tt.NamTuyenThang }}</option
-                    >
+                    <option :value="tt.IdTuyenThang" v-for="tt in lsDTTT">
+                      {{ tt.NamTuyenThang }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -259,8 +257,9 @@
                     <option
                       v-for="tinh in lsTinhThanhSinh"
                       :value="tinh.MaTinhTP"
-                      >{{ tinh.TenTinhTP }}</option
                     >
+                      {{ tinh.TenTinhTP }}
+                    </option>
                   </select>
                   <span class="text-danger" v-show="errors.has('noisinh')">
                     {{ errors.first("noisinh") }}
@@ -534,9 +533,9 @@
                     data-vv-as="Tỉnh/ Thành phố"
                   >
                     <option value="00">-- Chọn --</option>
-                    <option v-for="tinh in lsTinhThanh" :value="tinh.MaTinhTP"
-                      >{{ tinh.TenTinhTP }}</option
-                    >
+                    <option v-for="tinh in lsTinhThanh" :value="tinh.MaTinhTP">
+                      {{ tinh.TenTinhTP }}
+                    </option>
                   </select>
                   <span class="text-danger" v-show="errors.has('tinh3')">
                     {{ errors.first("tinh3") }}
@@ -555,9 +554,9 @@
                     data-vv-as="Quận/ Huyện"
                   >
                     <option value="00">-- Chọn --</option>
-                    <option v-for="qh in lsQuanHuyen12" :value="qh.MaQuanHuyen"
-                      >{{ qh.TenQuanHuyen }}</option
-                    >
+                    <option v-for="qh in lsQuanHuyen12" :value="qh.MaQuanHuyen">
+                      {{ qh.TenQuanHuyen }}
+                    </option>
                   </select>
                   <span class="text-danger" v-show="errors.has('quan3')">
                     {{ errors.first("quan3") }}
@@ -578,8 +577,9 @@
                     <option
                       v-for="truong in lsTruongTHPT12"
                       :value="truong.MaTruong"
-                      >{{ truong.TenTruong }}</option
                     >
+                      {{ truong.TenTruong }}
+                    </option>
                   </select>
                   <span class="text-danger" v-show="errors.has('truong3')">
                     {{ errors.first("truong3") }}
@@ -652,9 +652,9 @@
                     v-validate="{required: true}"
                     data-vv-as="Ngành học"
                   >
-                    <option v-for="nganh in lsNganh" :value="nganh.NganhID"
-                      >{{ nganh.TenNganh }}</option
-                    >
+                    <option v-for="nganh in lsNganh" :value="nganh.NganhID">
+                      {{ nganh.TenNganh }}
+                    </option>
                   </select>
                   <span class="text-danger" v-show="errors.has('nganh')">
                     {{ errors.first("nganh") }}
@@ -695,9 +695,9 @@
                       data-vv-as="Tổ hợp môn"
                     >
                       <option value="0">-- Chọn ---</option>
-                      <option v-for="tohop in lsToHop" :value="tohop.MonID"
-                        >{{ tohop.MoTaMon }}</option
-                      >
+                      <option v-for="tohop in lsToHop" :value="tohop.MonID">
+                        {{ tohop.MoTaMon }}
+                      </option>
                     </select>
                     <span class="text-danger" v-show="errors.has('tohop')">
                       {{ errors.first("tohop") }}
@@ -865,9 +865,7 @@
               </div>
 
               <div class="row d-flex justify-content-center py-5">
-                <button type="submit" class="btn btn-primary">
-                  Cập nhật
-                </button>
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
               </div>
             </form>
           </div>
@@ -906,7 +904,7 @@
     <script
       defer
       type="text/javascript"
-      src="assets/js/leo-v-reg.min.js?20190828"
+      src="assets/js/leo-v-reg.min.js?20200306"
     ></script>
     <script>
       // $(document).ready(() => {

@@ -148,7 +148,7 @@ var app = new Vue({
     };
   },
   mounted() {
-    let uri = window.location.search.substring(1);
+    let uri = window.location.search; //.substring(1);
     let params = new URLSearchParams(uri);
     this.src = params.get("src");
     this.ctvid = params.get("ctv");
@@ -245,7 +245,7 @@ var app = new Vue({
           .then((res) => res.json())
           .then((res) => {
             console.log(res);
-            if (res && res.data.HoTen && res.data.DienThoai) {
+            if (res && res.data && res.data.HoTen && res.data.DienThoai) {
               this.ctv = res.data;
               console.log(this.ctv);
             } else {
